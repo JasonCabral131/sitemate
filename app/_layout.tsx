@@ -1,5 +1,9 @@
+/** @format */
+
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import '@/global.css';
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+import { DarkTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -7,7 +11,8 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
-
+import { SafeAreaView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -42,18 +47,43 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <GluestackUIProvider mode='light'>
+      <RootLayoutNav />
+    </GluestackUIProvider>
+  );
 }
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
-    </ThemeProvider>
+    <GluestackUIProvider mode='dark'>
+      <ThemeProvider value={DarkTheme}>
+        <View
+          style={[
+            styles.container,
+            { backgroundColor: DarkTheme?.colors.background },
+          ]}>
+          <SafeAreaView style={styles.container}>
+            <Stack initialRouteName='index'>
+              <Stack.Screen
+                name='index'
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name='modal'
+                options={{ presentation: 'modal' }}
+              />
+            </Stack>
+          </SafeAreaView>
+        </View>
+      </ThemeProvider>
+    </GluestackUIProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
