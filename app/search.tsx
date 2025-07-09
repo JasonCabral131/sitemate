@@ -9,12 +9,15 @@ import {
   ActivityIndicator,
   SafeAreaView,
   RefreshControl,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import { useSearchArticles } from '@/hooks/useSearchArticles';
 import ArticleCard from '@/components/ArticleCard';
 import LoadingState from '@/components/LoadingState';
 import { NewsType } from '@/utils/types';
+import { Feather } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 const SearchApp = () => {
   const {
@@ -27,6 +30,7 @@ const SearchApp = () => {
   } = useSearchArticles();
 
   const [refreshing, setRefreshing] = React.useState(false);
+  const router = useRouter();
 
   const onRefresh = React.useCallback(() => {
     if (searchQuery.trim()) {
@@ -89,7 +93,14 @@ const SearchApp = () => {
   return (
     <View>
       <View className='px-4 pb-4'>
-        <View className='flex-row justify-between items-center mb-4'>
+        <View className='flex-row gap-2 mb-4 items-center'>
+          <TouchableOpacity onPress={() => router.back()}>
+            <Feather
+              name='arrow-left'
+              color={'#fff'}
+              size={20}
+            />
+          </TouchableOpacity>
           <Text className='text-white font-bold text-3xl'>Sitemate</Text>
         </View>
 
