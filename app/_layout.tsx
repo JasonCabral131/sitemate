@@ -48,17 +48,16 @@ export default function RootLayout() {
   }
 
   return (
-    <GluestackUIProvider mode='light'>
+    <GluestackUIProvider>
       <RootLayoutNav />
     </GluestackUIProvider>
   );
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
   return (
-    <GluestackUIProvider mode='dark'>
-      <ThemeProvider value={DarkTheme}>
+    <ThemeProvider value={DarkTheme}>
+      <GluestackUIProvider mode='dark'>
         <View
           style={[
             styles.container,
@@ -71,14 +70,18 @@ function RootLayoutNav() {
                 options={{ headerShown: false }}
               />
               <Stack.Screen
+                name='search'
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
                 name='modal'
                 options={{ presentation: 'modal' }}
               />
             </Stack>
           </SafeAreaView>
         </View>
-      </ThemeProvider>
-    </GluestackUIProvider>
+      </GluestackUIProvider>
+    </ThemeProvider>
   );
 }
 
